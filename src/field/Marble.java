@@ -1,0 +1,46 @@
+package field;
+
+import java.security.SecureRandom;
+
+public enum Marble {
+
+	BLACK(0),
+	BROWN(1),
+	BLUE(2),
+	RED(3), 
+	ORANGE(4),
+	PINK(5), 
+	GREEN(6), 
+	YELLOW(7),
+	WHITE(8),
+	NULL(9)
+	;
+	
+	private final int code;
+	private final static SecureRandom random = new SecureRandom();
+	private final static int SIZE = Marble.values().length;
+	
+	private Marble(int code){
+		this.code = code;
+	}
+	
+	public int getCode(){
+		return this.code;
+	}
+	
+	public static Marble getRandomMarble(){
+		return Marble.values()[random.nextInt(SIZE-1)];
+	}
+	
+	public String toString(){
+		return this.name();
+	}
+	
+	
+	public boolean equals(Marble m){
+		if(m.getCode() == this.code){
+			return true;
+		}
+		return false;
+	}
+}
