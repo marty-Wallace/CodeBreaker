@@ -17,13 +17,17 @@ public class Engine implements GameLogic {
 	private boolean gameOver;       // flag to represent if a single game is over. Reset for each game 
 	private StringBuilder gameDump; // build up dump of all important game IO
 	public Player winner;           // set the winner of a single game. Reset for each game 
-	private ArrayList<Player> bots;
+	private ArrayList<Player> bots; // bots in the game 
 
 	public Engine(ArrayList<Player> bots ) {
 		this.bots = bots;
 		this.gameDump = new StringBuilder(); 
 	}
 
+	/**
+	 * Send an update to both bots and append it to the game dump 
+	 * @param update -- the update message to be sent 
+	 */
 	public void sendUpdate(String update ) {
 		for(Player bot : bots){
 			bot.botIO.sendUpdate("update " + update);
@@ -31,6 +35,7 @@ public class Engine implements GameLogic {
 		gameDump.append("update " + update + "\n");
 	}
 
+	
 	public boolean gameOver() {
 		return this.gameOver;
 	}
@@ -41,6 +46,14 @@ public class Engine implements GameLogic {
 	 */
 	public void playGame() { 
 		
+		// Run test request for each bot and reset timebanks/offences
+		for(Player p : bots) {
+			requestMove(p, "test");
+			p.timeBank = CodeBreaker.MAX_TIMEBANK;
+			p.offences = 0; 
+		}
+		
+		
 		this.gameOver = false; 
 		
 		// requesting secret patterns 
@@ -48,6 +61,7 @@ public class Engine implements GameLogic {
 			requestMove(p, "secret_pattern");
 		}
 
+		// set round then enter game loop 
 		int round = 1; 
 		while( !gameOver ) { 
 			sendUpdate("round " + round);
@@ -58,7 +72,7 @@ public class Engine implements GameLogic {
 			//// checking game status and sending bots updates ////
 			updateGame();
 			
-			if( ++round > 10) { gameOver = true; }   // games past 50 rounds will be cut off 
+			if( ++round > 20) { gameOver = true; }   // games past 20 rounds will be cut off 
 
 		} // game loop over 
 
@@ -71,6 +85,10 @@ public class Engine implements GameLogic {
 
 	}
 
+	/**
+	 * Update the game and check if each player has won. Send update on how many red and white pegs each player earned. 
+	 * Set the game over condition/winner if neccesary
+	 */
 	public void updateGame() { 
 		for(Player p : bots) {
 			Pattern guess = p.getGuess();
@@ -89,6 +107,14 @@ public class Engine implements GameLogic {
 		}
 	}
 
+
+	/**
+	 * Notifies the bot communication thread that a move has been requested and waits until a response is recieved 
+	 * or the bot uses up all the time in it's timebank. Set's the bots current pattern then sends updates if the 
+	 * move type is a "guess" type 
+	 * @param bot -- the bot who is recieving the move request
+	 * @param moveType -- the moveType being requested. Either "secret_pattern" , "guess", or "test"
+	 */
 	public void requestMove(Player bot, String moveType) {
 
 		gameDump.append(bot.getName() + " request_move " + moveType + " " + bot.timeBank +"\n");
@@ -96,33 +122,33 @@ public class Engine implements GameLogic {
 		if(bot.offences < CodeBreaker.MAX_OFFENCES){
 			
 			bot.botIO.requestMove(moveType, bot.timeBank);
-			
+
 			synchronized(bot.botIO){
+				bot.botIO.setPriority(Thread.MAX_PRIORITY);
 				bot.botIO.notify();
 			}
-			
+				
 			long startTime = System.currentTimeMillis(); 
 			
-			while(bot.botIO.botSays == null && (startTime - System.currentTimeMillis() < bot.timeBank )) {
+			while(bot.botIO.botSays == null && (System.currentTimeMillis() - startTime < bot.timeBank )) {
 
 				try { Thread.sleep(1);} catch (InterruptedException e) { }
 
 			}
 			
-			bot.updateTimeBank((int)(startTime - System.currentTimeMillis()));
+			bot.updateTimeBank((int)(System.currentTimeMillis() - startTime) - 2);
 			if(bot.botIO.botSays == null) {
 				bot.offences++;
 			}
-			
-
 		}
 		
 		bot.setPattern(moveType);
 		bot.botIO.botSays = null; 
+		bot.botIO.setPriority(Thread.MIN_PRIORITY);
 		
 		if(moveType.equals("guess")){
 			gameDump.append(bot.getName() + " " + moveType + " " + bot.getGuess() + "\n");
-
+			sendUpdate(bot.getName() + " " + moveType + " " + bot.getGuess());
 		}else{
 			gameDump.append(bot.getName() + " " + moveType + " " + bot.getSecretPattern() + "\n");
 

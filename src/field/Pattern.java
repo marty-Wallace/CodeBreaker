@@ -9,7 +9,6 @@ public class Pattern {
 	private Marble[] pattern;
 	private static final int SIZE = CodeBreaker.COLS; // size of pattern
 
-
 	/**
 	 * Creates random Pattern
 	 */
@@ -23,7 +22,9 @@ public class Pattern {
 	public Pattern(String patternString){
 
 		pattern = new Marble[SIZE];
+		
 		String[] patternArray = patternString.split(",");
+		
 		if(patternArray.length != SIZE){
 			for(int i = 0; i < patternArray.length; i++){
 				try{

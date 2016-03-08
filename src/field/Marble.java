@@ -2,6 +2,14 @@ package field;
 
 import java.security.SecureRandom;
 
+
+/**
+ * Enumeration of the available colours for CodeBreaker patterns 
+ *  
+ * @author Martin Wallace
+ * <p> Martin.V.Wallace@ieee.org
+ *
+ */
 public enum Marble {
 
 	BLACK(0),

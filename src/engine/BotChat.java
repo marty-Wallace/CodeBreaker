@@ -2,7 +2,7 @@ package engine;
 
 import codebreaker.BotLogic;
 
-public class BotChat extends Thread{
+public class BotChat extends Thread {
 
 	private BotLogic bot;
 	public String botSays = null;

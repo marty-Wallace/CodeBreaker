@@ -5,13 +5,28 @@ import java.util.ArrayList;
 import engine.Engine;
 import engine.Player;
 
+/**
+ * Contains the main game loop that runs until the maximum amount is met or a player wins the required amount of games.
+ * 
+ * @author Martin Wallace
+ * <p> Martin.V.Wallace@ieee.org
+ *
+ */
 public class Game  {
 	
 	protected ArrayList<Player> bots;
 	protected Engine engine;
 	
 
+	/**
+	 * Main game loop 
+	 */
 	public void run(){
+		
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
 		
 		int gameNum = 0;
 		while(!this.gameOver()) {
@@ -29,6 +44,10 @@ public class Game  {
 		engine.finish();
 	}
 	
+	
+	/** 
+	 * Save the game to a file or database or print out for testing 
+	 */
 	public void saveGame() {
 		
 		// write to file if you want to save 
@@ -39,6 +58,10 @@ public class Game  {
 		
 	}
 	
+	/**
+	 * Check if either player has met the win conditions 
+	 * @return -- true if game is over 
+	 */
 	public boolean gameOver() { 
 		for(Player p : bots ) { 
 			if(p.hasWon()) { 

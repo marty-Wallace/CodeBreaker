@@ -3,19 +3,33 @@ package engine;
 import codebreaker.CodeBreaker;
 import field.Pattern;
 
+/**
+ * Class to hold all the game related information about a bot 
+ * 
+ * @author Martin Wallace
+ * <p> Martin.V.Wallace@ieee.org 
+ *
+ */
 public class Player {
 	
-	private Pattern guess; 
-	private Pattern secret; 
+	public int timeBank;      // the amount of time this player has to respond to move requests 
 	
-	public int offences;  // number of times the AI has failed to Respond 
-	public BotChat botIO; // the AI's communicator 
+	private Pattern guess;    // this players last guessed pattern
+	private Pattern secret;   // this players secret pattern
 	
-	private String name;  
-	private int games_won;
-	private Player opponent; 
+	public int offences;      // number of times the AI has failed to Respond 
+	public BotChat botIO;     // the AI's communicator 
 	
+	private String name;      // bot name 
+	private int games_won;    // number of game victories so far 
+	private Player opponent;  // the other bot 
+
 	
+	/**
+	 * Constructor for Player
+	 * @param botIO -- The communication channel for the engine with the bot 
+	 * @param name  -- The name of the bot 
+	 */
 	public Player(BotChat botIO, String name ) {
 		 this.botIO = botIO; 
 		 this.name = name;
@@ -23,7 +37,7 @@ public class Player {
 		 this.offences = 0;
 	}
 	
-	public int timeBank; 
+
 	
 	/**
 	 * Add one to the count of games won
@@ -32,7 +46,10 @@ public class Player {
 		this.games_won ++ ;
 	}
 	
-	
+	/**
+	 * Checks to see if this player has won as many games as the current Constant BEST_OF in the CodeBreaker class 
+	 * @return
+	 */
 	public boolean hasWon() {
 		if( this.games_won == CodeBreaker.BEST_OF){
 			return true; 
@@ -40,14 +57,26 @@ public class Player {
 		return false;
 	}
 	
+	/**
+	 * Get the name of this bot 
+	 * @return -- name 
+	 */
 	public String getName() {
 		return this.name;
 	}
 	
-	public void setOpponent(Player p) { 
-		this.opponent = p;
+	/**
+	 * Set this players opponent for easy switching in the engine
+	 * @param opponent -- other bot 
+	 */
+	public void setOpponent(Player opponent) { 
+		this.opponent = opponent;
 	}
 	
+	/**
+	 * Get the opponent of this bot 
+	 * @return opponent -- other bot 
+	 */
 	public Player getOpponent() {
 		return this.opponent;
 	}
@@ -63,11 +92,26 @@ public class Player {
 		
 	}
 	
+	/**
+	 * Takes the most recent value returned by the bot to the BotChat and sets that to be the pattern 
+	 * for the appropriate movetype 
+	 * 
+	 * @param moveType -- The type of move, either "secret_pattern" or "guess"
+	 */
 	public void setPattern(String moveType) { 
 		if(moveType.equals("secret_pattern")){
-			this.secret = new Pattern(botIO.botSays); 
+			if(botIO.botSays != null){
+				this.secret = new Pattern(botIO.botSays); 
+			}else {
+				this.secret = new Pattern();
+			} 
 		}else if(moveType.equals("guess")){
-			this.guess = new Pattern(botIO.botSays);
+			if(botIO.botSays != null){
+				this.guess = new Pattern(botIO.botSays);
+			}else {
+				this.guess = new Pattern();
+			}
+			
 		}else{
 			System.err.println("Improper move type " + moveType);
 		}
@@ -81,10 +125,18 @@ public class Player {
 		return this.name + " games_won " + this.games_won;
 	}
 	
+	/**
+	 * Get this players current guess pattern 
+	 * @return -- the most recent guess pattern of this player 
+	 */
 	public Pattern getGuess() { 
 		return this.guess;
 	}
 	
+	/**
+	 * Get this players current secret pattern 
+	 * @return -- the most recent secret pattern of this player 
+	 */
 	public Pattern getSecretPattern() { 
 		return this.secret;
 	}

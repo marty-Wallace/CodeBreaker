@@ -1,5 +1,12 @@
 package engine;
 
+/**
+ * Logic for the Engine 
+ * 
+ * @author Martin Wallace 
+ * <p> Martin.V.Wallace@ieee.org
+ *
+ */
 public interface GameLogic {
 	
 	public void sendSetting(String setting);              // send initial game settings to both AI's 
