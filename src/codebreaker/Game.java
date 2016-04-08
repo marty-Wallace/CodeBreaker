@@ -12,11 +12,10 @@ import engine.Player;
  * <p> Martin.V.Wallace@ieee.org
  *
  */
-public class Game  {
+public abstract class Game  {
 	
 	protected ArrayList<Player> bots;
 	protected Engine engine;
-	
 
 	/**
 	 * Main game loop 
@@ -36,7 +35,10 @@ public class Game  {
 			}
 			engine.playGame();
 			
-			if( gameNum++  > CodeBreaker.MAX_GAMES) { break; }  
+			if( gameNum++  > CodeBreaker.MAX_GAMES){ 
+				break;   
+			}
+			
 		}
 		
 		saveGame();
@@ -70,5 +72,17 @@ public class Game  {
 		}
 		return false;
 	}
+	
+	/**
+	 * Set each players opponents 
+	 */
+	protected void setOpponents() { 
+		Player bot1 = bots.get(0);
+		Player bot2 = bots.get(1);
+		bot1.setOpponent(bot2);
+		bot2.setOpponent(bot1);
+	}
+	
+	protected abstract void setupGame();
 
 }

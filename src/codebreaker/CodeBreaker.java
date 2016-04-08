@@ -16,14 +16,15 @@ import starter.SDBot;
  * <p> Martin.V.Wallace@ieee.org
  *
  */
-public class CodeBreaker extends Game {
+public final class CodeBreaker extends Game {
 	
-	public static final int COLS = 5;             // the number of marbles in a pattern 
-	public static final int MAX_GAMES = 2;        // the maximum number of games that can be played before the engine exits 
-	public static final int BEST_OF = 1;          // the number of games a player needs to win to win the entire match 
-	public static final int TIME_PER_MOVE = 50;   // maximum number of milliseconds an AI  can take to make a move 
-	public static final int MAX_TIMEBANK = 5000;  // maximum amount of milliseconds an AI can have in its time bank 
-	public static final int MAX_OFFENCES = 2;     // maximum number of times an AI is allowed to not respond or go over its time limit
+	public static final int COLS = 5;                 // the number of marbles in a pattern 
+	public static final int MAX_GAMES = 2;            // the maximum number of games that can be played before the engine exits 
+	public static final int BEST_OF = 1;              // the number of games a player needs to win to win the entire match 
+	public static final int TIME_PER_MOVE = 50;       // maximum number of milliseconds an AI  can take to make a move 
+	public static final int MAX_TIMEBANK = 5000;      // maximum amount of milliseconds an AI can have in its time bank 
+	public static final int MAX_OFFENCES = 2;         // maximum number of times an AI is allowed to not respond or go over its time limit
+	public static final int MAX_ROUNDS_PER_GAME = 20; // maximum number of rounds a game can go 
 	
 	public static void main(String[] args) {
 		
@@ -34,12 +35,13 @@ public class CodeBreaker extends Game {
 		System.exit(0);
 	}
 	
-	private void setupGame(){
+	@Override
+	protected void setupGame(){
 		
-		////////////////////////////Adjust this to change which bots are playing the game////////////////////////////
+		//Adjust this to change which bots are playing the game         
 		BotLogic bot1 = new RNBot();     
 		BotLogic bot2 = new RNBot();     
-		///////////////////////////////Or leave as RNBot for a random opponent///////////////////////////////////////
+		//Or leave as RNBot for a random opponent   
 		
 		super.bots =  new ArrayList<Player>();
 		
@@ -80,7 +82,6 @@ public class CodeBreaker extends Game {
 			p.botIO.sendSetting("settings your_bot " + p.getName());
 		}
 		
-		
 		// add bots to engine and send settings 
 		super.engine = new Engine(this.bots);
 		engine.sendSetting("size " + COLS);
@@ -89,14 +90,7 @@ public class CodeBreaker extends Game {
 		engine.sendSetting("max_timebank " + MAX_TIMEBANK);
 	}
 	
-	/**
-	 * Set each players opponents 
-	 */
-	public void setOpponents() { 
-		Player bot1 = bots.get(0);
-		Player bot2 = bots.get(1);
-		bot1.setOpponent(bot2);
-		bot2.setOpponent(bot1);
-	}
+	
+
 	
 }

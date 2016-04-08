@@ -1,6 +1,5 @@
 package starter;
 
-
 /**
  * Starter bot for the Okanagan College Student Branch IEEE AI Competition. 
  * All bots must implement the BotLogic interface to be able to run on the Engine. 
@@ -14,7 +13,7 @@ package starter;
  * <p> Martin.V.Wallace@ieee.org
  *
  */
-public class SDBot implements codebreaker.BotLogic {
+public class SDBot implements BotLogic {
 
 	GameState state; 
 	
@@ -37,23 +36,7 @@ public class SDBot implements codebreaker.BotLogic {
 		
 		/// This is where the magic happens dawg. Good luck! // 
 		
-		
-		System.out.println(moveType + " " + state.my_bot);
-		// the following is a valid strategy albeit not a good one 
-		if(moveType.equals("secret_pattern") && state.my_bot.equals("player_1")){
-			return "RED,RED,BLUE,RED,RED";
-		}else if(moveType.equals("secret_pattern") && state.my_bot.equals("player_2")){
-			return "PINK,BROWN,ORANGE,BLACK,WHITE";
-		}
-		
-		if(state.round_number == 9){
-			return "RED,RED,BLUE,RED,RED";
-		}
-		
 		return new Pattern(state.getSize()).toString(); // returns a random pattern for now 
-		
-		
-		
 	}
 
 	

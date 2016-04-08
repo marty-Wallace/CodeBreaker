@@ -47,7 +47,7 @@ public class Player {
 	}
 	
 	/**
-	 * Checks to see if this player has won as many games as the current Constant BEST_OF in the CodeBreaker class 
+	 * Checks to see if this player has won as many games as the Constant BEST_OF in the CodeBreaker class 
 	 * @return
 	 */
 	public boolean hasWon() {

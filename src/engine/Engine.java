@@ -65,14 +65,16 @@ public class Engine implements GameLogic {
 		int round = 1; 
 		while( !gameOver ) { 
 			sendUpdate("round " + round);
-			///// requesting moves ///// 
+			// requesting moves  
 			for(Player p : bots) { 
 				requestMove(p, "guess"); 
 			}
-			//// checking game status and sending bots updates ////
+			// checking game status and sending bots updates 
 			updateGame();
 			
-			if( ++round > 20) { gameOver = true; }   // games past 20 rounds will be cut off 
+			gameDump.append("\n");
+			
+			if( ++round > CodeBreaker.MAX_ROUNDS_PER_GAME) { gameOver = true; }   // games past 20 rounds will be cut off 
 
 		} // game loop over 
 
@@ -153,8 +155,6 @@ public class Engine implements GameLogic {
 			gameDump.append(bot.getName() + " " + moveType + " " + bot.getSecretPattern() + "\n");
 
 		}
-
-
 	}
 
 
@@ -189,7 +189,5 @@ public class Engine implements GameLogic {
 			
 			p.botIO.finish();
 		}
-		
 	}
-
 }

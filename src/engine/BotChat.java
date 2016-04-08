@@ -8,7 +8,6 @@ public class BotChat extends Thread {
 	public String botSays = null;
 	private boolean requestMove;
 	private boolean running;
-
 	private String moveType;
 	private int timeLimit;
 	
@@ -44,14 +43,15 @@ public class BotChat extends Thread {
 
 			synchronized(this){
 				try {
-					this.wait(); // wait for Engine to wake up bot 
+					while(!requestMove){
+						this.wait(); // wait for Engine to wake up bot 
+					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 			
 		}
-
 	}
 
 	public String getReply() {
