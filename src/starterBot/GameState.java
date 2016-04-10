@@ -1,7 +1,10 @@
-package starter;
+package starterBot;
 
 /**
- * Basic class to store the GameState information 
+ * Basic class to store the GameState information and parse the updates and settings sent by the engine
+ * 
+ * Right now this class only stores the current information of the game state
+ * You may want to find a way to store all of information of past rounds to influence your decisions
  * 
  * @author Martin Wallace 
  * <p> Martin.V.Wallace@ieee.org 
@@ -9,25 +12,21 @@ package starter;
  */
 public class GameState {
 
-	private int maxTimebank;    // the maximum number of ms available in your timebank 
-	private int timePerMove;   // the time added to your timebank for each move 
-	private int bestOf;         // how many games you need to win to win the match 
-	private int roundNumber;    // the current round number
-	private int gameNumber;     // the current game number 
-	private int gamesWon;       // how many games you have currently won
-	private int gamesLost;      // how many games your opponent has won 
-	private int myRedPegs;     // how many red pegs did your last guess get
-	private int myWhitePegs;   // how many white pegs did your last guess get 
-	private int oppRedPegs;    // how many red pegs did your opponents last guess get
-	private int oppWhitePegs;  // how many white pegs did your opponents last guess get
-	private int size;            // the number of marbles in pattern 
-
-	String my_bot;
-	
-	GameState() {
-
-
-	}
+	private int maxTimebank;      // the maximum number of ms available in your timebank 
+	private int timePerMove;      // the time added to your timebank for each move 
+	private int bestOf;           // how many games you need to win to win the match 
+	private int roundNumber;      // the current round number
+	private int gameNumber;       // the current game number 
+	private int gamesWon;         // how many games you have currently won
+	private int gamesLost;        // how many games your opponent has won 
+	private int myRedPegs;        // how many red pegs did your last guess get
+	private int myWhitePegs;      // how many white pegs did your last guess get 
+	private int oppRedPegs;       // how many red pegs did your opponents last guess get
+	private int oppWhitePegs;     // how many white pegs did your opponents last guess get
+	private int size;             // the number of marbles in pattern 
+	private String my_bot;        // the name of my bot in the game engine, either player_1 or player_2
+	private Pattern myLastGuess;  // the pattern I guess last turn
+	private Pattern oppLastGuess; // the pattern my opp guesses last turn 
 
 	void updateSettings(String setting) {
 		String[] parts = setting.split(" ");
@@ -75,6 +74,10 @@ public class GameState {
 				gamesWon =  Integer.parseInt(parts[3]);
 			}else if( parts[2].equals("games_won")) {
 				gamesLost = Integer.parseInt(parts[3]);
+			}else if(parts[2].equals("guess") && parts[1].equals(my_bot)) {
+				myLastGuess = new Pattern(parts[3]);
+			}else if(parts[2].equals("guess")) {
+				oppLastGuess = new Pattern(parts[3]);
 			}
 		}
 	}
@@ -131,6 +134,13 @@ public class GameState {
 		return my_bot;
 	}
 
+	public Pattern getMyLastGuess() {
+		return myLastGuess;
+	}
+
+	public Pattern getOppLastGuess() {
+		return oppLastGuess;
+	}
 
 
 }

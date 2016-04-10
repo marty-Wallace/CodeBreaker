@@ -1,4 +1,4 @@
-package starter;
+package starterBot;
 
 /**
  * !DO NOT CHANGE THIS CODE! 

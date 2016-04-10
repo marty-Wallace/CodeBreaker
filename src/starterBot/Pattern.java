@@ -1,21 +1,15 @@
-package starter;
-
-
-import java.util.Arrays;
-
+package starterBot;
 
 /**
  * Pattern object with a random pattern function
  * 
  * @author Martin Wallace 
  * <p> Martin.V.Wallace@ieee.org 
- *
  */
 public class Pattern {
 
 	private Marble[] pattern; 
 	private int size; // size of pattern; how many marbles 
-
 
 	/**
 	 * Creates random Pattern
@@ -42,8 +36,6 @@ public class Pattern {
 		for(int i = 0; i < size; i++) {
 			pattern[i] = Marble.valueOf(parts[i]);
 		}
-		
-		
 	}
 
 	@Override
@@ -55,7 +47,6 @@ public class Pattern {
 		return ret.substring(0, ret.length()-1);
 	}
 
-	
 	/**
 	 * Returns the marble array
 	 * @return - Marble array of this pattern 

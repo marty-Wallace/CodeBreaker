@@ -24,8 +24,8 @@ public abstract class Game  {
 		
 		try {
 			Thread.sleep(500);
-		} catch (InterruptedException e) {
-		}
+		} catch (InterruptedException e) { }
+
 		
 		int gameNum = 0;
 		while(!this.gameOver()) {

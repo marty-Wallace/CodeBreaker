@@ -1,4 +1,4 @@
-package starter;
+package starterBot;
 
 import java.util.Random;
 
@@ -19,7 +19,7 @@ public enum Marble {
 	PINK(5), 
 	GREEN(6), 
 	YELLOW(7),
-	WHITE(8),
+	WHITE(8)
 	;
 	
 	private final int code;

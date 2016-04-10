@@ -1,4 +1,4 @@
-package starter;
+package starterBot;
 
 /**
  * Starter bot for the Okanagan College Student Branch IEEE AI Competition. 
@@ -13,7 +13,7 @@ package starter;
  * <p> Martin.V.Wallace@ieee.org
  *
  */
-public class SDBot implements BotLogic {
+public class SDBot implements codebreaker.BotLogic {
 
 	GameState state; 
 	
@@ -35,9 +35,11 @@ public class SDBot implements BotLogic {
 	public String requestMove(String moveType, int timeLimit) {
 		
 		/// This is where the magic happens dawg. Good luck! // 
+		if(moveType.equals("test")) {
+			return null;
+		}
 		
 		return new Pattern(state.getSize()).toString(); // returns a random pattern for now 
 	}
-
 	
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import engine.BotChat;
 import engine.Engine;
 import engine.Player;
-import starter.SDBot;
+import starterBot.SDBot;
 
 /**
  * CodeBreaker class contains constants used throughout the game engine. Adjust them for testing if needed. 
@@ -18,7 +18,7 @@ import starter.SDBot;
  */
 public final class CodeBreaker extends Game {
 	
-	public static final int COLS = 5;                 // the number of marbles in a pattern 
+	public static final int COLS = 6;                 // the number of marbles in a pattern 
 	public static final int MAX_GAMES = 2;            // the maximum number of games that can be played before the engine exits 
 	public static final int BEST_OF = 1;              // the number of games a player needs to win to win the entire match 
 	public static final int TIME_PER_MOVE = 50;       // maximum number of milliseconds an AI  can take to make a move 
@@ -39,7 +39,7 @@ public final class CodeBreaker extends Game {
 	protected void setupGame(){
 		
 		//Adjust this to change which bots are playing the game         
-		BotLogic bot1 = new RNBot();     
+		BotLogic bot1 = new SDBot();     
 		BotLogic bot2 = new RNBot();     
 		//Or leave as RNBot for a random opponent   
 		
