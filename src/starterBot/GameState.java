@@ -48,7 +48,6 @@ public class GameState {
 		case "your_bot": 
 			this.my_bot = parts[2];
 		}
-
 	}
 
 	void updateGame(String update) {
@@ -59,6 +58,9 @@ public class GameState {
 
 		case "round": 
 			this.roundNumber = Integer.parseInt(parts[2]);
+			break;
+		case "game":
+			this.gameNumber = Integer.parseInt(parts[2]);
 			break;
 		case "player_1": 
 		case "player_2":
